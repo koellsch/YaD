@@ -170,7 +170,7 @@ i {
     font-size: 30px;
     color: white;
 }
-.timer .titel, .timer .counter {
+.timer .counter {
     float: left;
     position: relative;
     height: 40px;
@@ -179,14 +179,34 @@ i {
     margin-left: 5px;
 }
 
-.timer .remove {
+.timer .titel {
+    position: relative;
+    float: left;
+    width: 270px;
+    height: 40px;
+    font-size: 30px;
+    color: white;
+    background: none;
+    border: none;
+    margin-top: 3px;
+    margin-left: 5px;
+}
+
+.timer .remove, .timer .control {
     position: absolute;
     height: 26px;
+    width: 26px;
     top: 50%;
-    right: 10px;
     margin-top: -15px;
-    border: white solid 2px;
-    background: rgba(196, 192, 192, 0.479);
     line-height: 0.9em;
     cursor: pointer;
+}
+
+.timer .remove {
+    right: 10px;
+}
+
+.timer .control {
+    right: 46px;
+    background: url('../img/play.png') no-repeat;
 }
