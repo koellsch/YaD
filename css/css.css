@@ -38,6 +38,15 @@ html {
     height: 100%;
 }
 
+#dashboard {
+    width: 500px;
+    margin: 0 auto;
+}
+
+/*=================================
+			Weather
+==================================*/
+
 #weather {
     width: 500px;
     margin: 0px auto;
@@ -127,4 +136,57 @@ i {
 
 #weather .currently {
     margin: 0 20px;
+}
+
+/*=================================
+			Timer
+==================================*/
+
+#timer_box {
+    width: 500px;
+    margin: 0px auto;
+    text-align: center;
+}
+
+#add-timer {
+    border: #fff 2px solid;
+    padding: 10px;
+    margin-top: 20px;
+    color: white;
+    font-size: 20px;
+    text-align: right;
+    float:right;
+    cursor: pointer;
+}
+
+#timer_box .timer {
+    position: relative;
+    width: 500px;
+    height: 50px;
+    border: #fff 2px solid;
+    margin-top: 20px;
+}
+.timer {
+    font-size: 30px;
+    color: white;
+}
+.timer .titel, .timer .counter {
+    float: left;
+    position: relative;
+    height: 40px;
+    top: 50%;
+    margin-top: -20px;
+    margin-left: 5px;
+}
+
+.timer .remove {
+    position: absolute;
+    height: 26px;
+    top: 50%;
+    right: 10px;
+    margin-top: -15px;
+    border: white solid 2px;
+    background: rgba(196, 192, 192, 0.479);
+    line-height: 0.9em;
+    cursor: pointer;
 }
