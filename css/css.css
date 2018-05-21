@@ -39,7 +39,7 @@ html {
 }
 
 #dashboard {
-    width: 500px;
+    width: 700px;
     margin: 0 auto;
 }
 
@@ -48,7 +48,7 @@ html {
 ==================================*/
 
 #weather {
-    width: 500px;
+    width: 700px;
     margin: 0px auto;
     text-align: center;
 }
@@ -143,7 +143,7 @@ i {
 ==================================*/
 
 #timer_box {
-    width: 500px;
+    width: 700px;
     margin: 0px auto;
     text-align: center;
 }
@@ -161,7 +161,7 @@ i {
 
 #timer_box .timer {
     position: relative;
-    width: 500px;
+    width: 700px;
     height: 50px;
     border: #fff 2px solid;
     margin-top: 20px;
@@ -182,7 +182,7 @@ i {
 .timer .titel {
     position: relative;
     float: left;
-    width: 270px;
+    width: 440px;
     height: 40px;
     font-size: 30px;
     color: white;
