@@ -5,6 +5,8 @@ $(document).ready(function() {
   getWeather(); //Get the initial weather.
   setInterval(getWeather, 600000); //Update the weather every 10 minutes.
 
+  Load_timers();
+
   $('#add-timer').click(Add_new_timer);
 });
 
@@ -115,6 +117,7 @@ function Add_new_timer() {
   $('#timer_box').append('<div class="timer" id="timer_' + timer_id + '" data-id="' + timer_id + '"><form><input class="titel" type="text" placeholder="Titel eingeben"></form><div class="counter">0T 00:00:00</div><div class="control" data-value="0"></div><div class="remove">X</div></div>');
   $('#timer_' + timer_id + ' .remove').click(Remove_timer);
   $('#timer_' + timer_id + ' .control').click(Change_status);
+
   var new_timer = new timer(timer_id);
   active_timers.set(timer_id, new_timer);
   interval_ids.set(timer_id, setInterval(new_timer.timer, 10));
@@ -147,4 +150,41 @@ function Change_status() {
     timer.restart();
     $(this).attr('data-value', '1');
   }
+}
+
+window.onbeforeunload = function () {
+  Save_timers();
+};
+
+function Save_timers()
+{
+  localStorage.clear();
+  $('.timer').each(function(i, obj)
+  {
+    var titel_and_duration = $(this).find('.titel').val() + ';' + $(this).find(' .counter').text();
+    localStorage.setItem(i, titel_and_duration);
+  });
+}
+
+function Load_timers()
+{
+  for ( var i = 0, len = localStorage.length; i < len; ++i )
+  {
+    var timer = localStorage.getItem(localStorage.key(i));
+    Add_existing_timer(localStorage.key(i), timer.split(";")[0], timer.split(";")[1]);
+  }
+}
+
+function Add_existing_timer(id, titel, duration)
+{
+  $('#timer_box').append('<div class="timer" id="timer_' + id + '" data-id="' + id + '"><form><input class="titel" type="text" placeholder="Titel eingeben" value="' + titel + '"></form><div class="counter">' + duration + '</div><div class="control" data-value="1"></div><div class="remove">X</div></div>');
+  $('#timer_' + id + ' .remove').click(Remove_timer);
+  $('#timer_' + id + ' .control').click(Change_status);
+  $('#timer_' + id + ' .control').css("background", "url(img/refresh.png) no-repeat");
+
+  var new_timer = new timer(id);
+  new_timer.set(parseInt(duration.split("T")[0]),parseInt(duration.split("T ")[1].split(":")[0]), parseInt(duration.split("T ")[1].split(":")[1]), parseInt(duration.split("T ")[1].split(":")[2]), 0);
+  new_timer.start();
+  active_timers.set(id, new_timer);
+  interval_ids.set(id, setInterval(new_timer.timer, 10));
 }
