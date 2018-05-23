@@ -1,2 +1,2 @@
 # dachsbau-timer
-Website with simple timers for custom task (i.e. watering plants, ...)
+Website with simple timers and countdowns for custom task (i.e. watering plants, ...)

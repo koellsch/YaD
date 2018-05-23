@@ -139,7 +139,7 @@ i {
 }
 
 /*=================================
-			Timer
+		Timer / Countdown
 ==================================*/
 
 #timer_box {
@@ -148,10 +148,11 @@ i {
     text-align: center;
 }
 
-#add-timer {
+#add-timer, #add-countdown {
     border: #fff 2px solid;
     padding: 10px;
     margin-top: 20px;
+    margin-left: 20px;
     color: white;
     font-size: 20px;
     text-align: right;
@@ -159,30 +160,33 @@ i {
     cursor: pointer;
 }
 
-#timer_box .timer {
+#timer_box .timer, #timer_box .countdown {
     position: relative;
     width: 700px;
     height: 50px;
-    border: #fff 2px solid;
+    border: 2px solid;
+    border-color: white;
     margin-top: 20px;
 }
-.timer {
+.timer, .countdown {
     font-size: 30px;
     color: white;
 }
 .timer .counter {
     float: left;
+    width: 200px;
     position: relative;
     height: 40px;
     top: 50%;
     margin-top: -20px;
     margin-left: 5px;
+    text-align: left;
 }
 
-.timer .titel {
+.countdown .counter {
     position: relative;
     float: left;
-    width: 440px;
+    width: 200px;
     height: 40px;
     font-size: 30px;
     color: white;
@@ -192,7 +196,20 @@ i {
     margin-left: 5px;
 }
 
-.timer .remove, .timer .control {
+.timer .titel, .countdown .titel {
+    position: relative;
+    float: left;
+    width: 410px;
+    height: 40px;
+    font-size: 30px;
+    color: white;
+    background: none;
+    border: none;
+    margin-top: 3px;
+    margin-left: 5px;
+}
+
+.timer .remove, .timer .control, .countdown .remove, .countdown .control {
     position: absolute;
     height: 26px;
     width: 26px;
@@ -202,11 +219,31 @@ i {
     cursor: pointer;
 }
 
-.timer .remove {
+.timer .remove, .countdown .remove {
     right: 10px;
 }
 
-.timer .control {
+.timer .control, .countdown .control {
     right: 46px;
     background: url('../img/play.png') no-repeat;
 }
+
+@keyframes blink { 
+    0% {border-color: white; }
+    100% { border-color: red; }
+ }
+
+ .popup {
+     position: absolute;
+     left: 420px;
+     height: 40px;
+     width: 190px;
+     background-color: rgb(223, 223, 223);
+     color: rgb(56, 117, 197);
+     line-height: 1.4em;
+     z-index: 10;
+     border-radius: 5px;
+     padding: 5px;
+     margin-top: -55px;
+     display: none;
+ }

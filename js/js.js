@@ -1,126 +1,45 @@
 var active_timers = new Map();
+var active_countdowns = new Map();
 var interval_ids = new Map();
+var interval_ids_countdowns = new Map();
 
 $(document).ready(function() {
   getWeather(); //Get the initial weather.
   setInterval(getWeather, 600000); //Update the weather every 10 minutes.
 
-  Load_timers();
+  Load_elements();
 
   $('#add-timer').click(Add_new_timer);
+  $('#add-countdown').click(Add_new_countdown);
 });
 
-function idset(id, string) {
-  document.getElementById(id).getElementsByClassName('counter')[0].innerHTML = string;
-}
-
-function timer(id) {
-  var timer_id = id;
-  var stop = 1;
-  var days = 0;
-  var hrs0 = "";
-  var hrs = 0;
-  var mins0 = "";
-  var mins = 0;
-  var secs0 = "";
-  var secs = 0;
-  var msecs = 0;
-
-  return {
-    setText: function() {
-      hrs0  = ((hrs < 10) ? "0" : "");
-      mins0  = ((mins < 10) ? "0" : "");
-      secs0  = ((secs < 10) ? "0" : "");
-
-      var current_time = days + 'T ' + hrs0 + hrs + ':' + mins0 + mins + ':' + secs0 + secs;
-      idset("timer_" + timer_id, current_time);
-    },
-    start: function() {
-      stop = 0;
-    },
-    stop: function() {
-      stop = 1;
-    },
-    clear: function() {
-      this.stop();
-      days = 0;
-      hrs = 0;
-      mins = 0;
-      secs = 0;
-      msecs = 0;
-      this.setText();
-    },
-    restart: function() {
-      this.clear();
-      this.start();
-    },
-    timer: function() {
-      if (stop === 0) {
-        msecs++;
-        if (msecs === 100) {
-          secs ++;
-          msecs = 0;
-        }
-        if (secs === 60) {
-          mins++;
-          secs = 0;
-        }
-        if (mins === 60) {
-          hrs++;
-          mins = 0;
-        }
-        if (hrs === 24) {
-          days++;
-          hrs = 0;
-        }
-
-        hrs0  = ((hrs < 10) ? "0" : "");
-        mins0  = ((mins < 10) ? "0" : "");
-        secs0  = ((secs < 10) ? "0" : "");
-
-        var current_time = days + 'T ' + hrs0 + hrs + ':' + mins0 + mins + ':' + secs0 + secs;
-        idset("timer_" + timer_id, current_time);
-      }
-    },
-    set: function(tage, stunden, minuten, sekunden, msekunden) {
-      this.stop();
-      days = tage;
-      hrs = stunden;
-      mins = minuten;
-      secs = sekunden;
-      msecs = msekunden;
-      this.setText();
-    }
-  }
+window.onbeforeunload = function () {
+  Save_elements();
 };
-  
-function getWeather() {
-  $.simpleWeather({
-    location: 'Haar, Munich, Germany',
-    unit: 'c',
-    success: function(weather) {
-      html = '<h2><i class="icon-' + weather.code + '"></i> ' + weather.temp + '&deg;' + weather.units.temp + '</h2>';
-      html += '<ul><li>' + weather.city + '</li>';
-      html += '<li class="currently">' + weather.currently + '</li>';
-      html += '<li>' + weather.wind.speed + ' ' + weather.units.speed + '</li></ul>';
-    
-      $("#weather").html(html);
-    },
-    error: function(error) {
-      $("#weather").html('<p>' + error + '</p>');
-    }
-  });
-}
 
 function Add_new_timer() {
-  var timer_id = String($('.timer').length);
-  $('#timer_box').append('<div class="timer" id="timer_' + timer_id + '" data-id="' + timer_id + '"><form><input class="titel" type="text" placeholder="Titel eingeben"></form><div class="counter">0T 00:00:00</div><div class="control" data-value="0"></div><div class="remove">X</div></div>');
-  $('#timer_' + timer_id + ' .remove').click(Remove_timer);
-  $('#timer_' + timer_id + ' .control').click(Change_status);
+  var id = String($('.timer').length);
+  var timer_id = 'timer_' + id;
+  $('#timer_box').append('<div class="timer" id="' + timer_id + '" data-id="' + id + '"><form><input class="titel" type="text" placeholder="Titel eingeben"></form><div class="counter">0T 00:00:00</div><div class="control" data-value="0"></div><div class="remove">X</div></div>');
+  $('#' + timer_id + ' .remove').click(Remove_timer);
+  $('#' + timer_id + ' .control').click(Change_status);
 
   var new_timer = new timer(timer_id);
-  active_timers.set(timer_id, new_timer);
-  interval_ids.set(timer_id, setInterval(new_timer.timer, 10));
+  active_timers.set(id, new_timer);
+  interval_ids.set(id, setInterval(new_timer.timer, 10));
+}
+
+function Add_new_countdown() {
+  var id = String($('.countdown').length);
+  var countdown_id = 'countdown_' + id;
+  $('#timer_box').append('<div class="countdown" id="' + countdown_id + '" data-id="' + id + '"><form><input class="titel" type="text" placeholder="Titel eingeben"><input class="counter" type="text" placeholder="Datum"></form><div class="popup"></div><div class="control" data-value="0"></div><div class="remove">X</div></div>');
+  $('#' + countdown_id + ' .remove').click(Remove_countdown);
+  $('#' + countdown_id + ' .control').click(Change_status_countdown);
+  $('#' + countdown_id + ' .counter').click(Show_enddate);
+
+  var new_countdown = new countdown(countdown_id);
+  active_countdowns.set(id, new_countdown);
+  interval_ids_countdowns.set(id, setInterval(new_countdown.timer, 10));
 }
 
 function Remove_timer() {
@@ -128,6 +47,14 @@ function Remove_timer() {
   clearInterval(interval_ids.get(id));
   active_timers.delete(id);
   interval_ids.delete(id);
+  $(this).parent().remove();
+}
+
+function Remove_countdown() {
+  var id = $(this).parent().attr('data-id');
+  clearInterval(interval_ids_countdowns.get(id));
+  active_countdowns.delete(id);
+  interval_ids_countdowns.delete(id);
   $(this).parent().remove();
 }
 
@@ -140,6 +67,7 @@ function Change_status() {
   {
     //Start timer
     timer.start();
+    $(this).parent().attr('data-start', timer.getStartTime());
     $(this).attr('data-value', '1');
     $(this).css("background", "url(img/refresh.png) no-repeat");
         
@@ -148,43 +76,154 @@ function Change_status() {
   {
     //Reset timer
     timer.restart();
+    $(this).parent().attr('data-start', timer.getStartTime());
     $(this).attr('data-value', '1');
   }
 }
 
-window.onbeforeunload = function () {
-  Save_timers();
-};
+function Change_status_countdown() {
+  var countdown_id = $(this).parent().attr('data-id');
+  var status = $(this).attr('data-value');
+  var countdown = active_countdowns.get(countdown_id);
+  var date;
 
-function Save_timers()
-{
-  localStorage.clear();
-  $('.timer').each(function(i, obj)
+  if (status == 0)
   {
-    var titel_and_duration = $(this).find('.titel').val() + ';' + $(this).find(' .counter').text();
-    localStorage.setItem(i, titel_and_duration);
-  });
-}
+    //Start countdown
+    var time_set = $(this).parent().attr('data-end');
+    if(typeof time_set !== typeof undefined && time_set !== false)
+    {
+      //Countdown paused
+      //Check for new entered date
+      var date_input = $(this).parent().find('.counter').val();
+      var date_converted = Convert_date(date_input);
+      var new_date = new Date(date_converted);
+      date = new Date(time_set);
 
-function Load_timers()
-{
-  for ( var i = 0, len = localStorage.length; i < len; ++i )
+      if(new_date != date && new_date != 'Invalid Date')
+      {
+        date = new_date;
+      }
+    }
+    else
+    {
+      //Countdown never started
+      var date_input = $(this).parent().find('.counter').val();
+      var date_converted = Convert_date(date_input);
+      date = new Date(date_converted);
+    }
+
+    if(date != 'Invalid Date')
+    {
+      countdown.set(date);
+      countdown.start();
+      $(this).parent().attr('data-end', date);
+      $(this).attr('data-value', '1');
+      $(this).css("background", "url(img/pause.png) no-repeat");
+    }
+        
+  }
+  else if(status == 1)
   {
-    var timer = localStorage.getItem(localStorage.key(i));
-    Add_existing_timer(localStorage.key(i), timer.split(";")[0], timer.split(";")[1]);
+    //Pause countdown
+    countdown.stop();
+    $(this).attr('data-value', '0');
+    $(this).css("background", "url(img/play.png) no-repeat");
   }
 }
 
-function Add_existing_timer(id, titel, duration)
+function Show_enddate()
 {
-  $('#timer_box').append('<div class="timer" id="timer_' + id + '" data-id="' + id + '"><form><input class="titel" type="text" placeholder="Titel eingeben" value="' + titel + '"></form><div class="counter">' + duration + '</div><div class="control" data-value="1"></div><div class="remove">X</div></div>');
-  $('#timer_' + id + ' .remove').click(Remove_timer);
-  $('#timer_' + id + ' .control').click(Change_status);
-  $('#timer_' + id + ' .control').css("background", "url(img/refresh.png) no-repeat");
+  var time_set = $(this).parent().parent().attr('data-end');
+  var options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+  if(typeof time_set !== typeof undefined && time_set !== false)
+  {
+    $(this).parent().parent().find('.popup').html(new Date(time_set).toLocaleDateString('de-DE', options));
+    $(this).parent().parent().find('.popup').fadeIn('slow');
+    $(this).parent().parent().find('.popup').delay(1000).fadeOut('slow');
+  }
+}
 
-  var new_timer = new timer(id);
-  new_timer.set(parseInt(duration.split("T")[0]),parseInt(duration.split("T ")[1].split(":")[0]), parseInt(duration.split("T ")[1].split(":")[1]), parseInt(duration.split("T ")[1].split(":")[2]), 0);
-  new_timer.start();
+function Save_elements()
+{
+  localStorage.clear();
+  var item = 0;
+  $('.timer').each(function(i, obj)
+  {
+    var titel_and_duration = 'timer_' + i + ';' + $(this).find('.titel').val() + ';' + $(this).attr('data-start');
+    localStorage.setItem(item, titel_and_duration);
+    item++;
+  });
+  $('.countdown').each(function(i, obj)
+  {
+    var titel_and_endtime = 'countdown_' + i + ';' + $(this).find('.titel').val() + ';' + $(this).attr('data-end');
+    localStorage.setItem(item, titel_and_endtime);
+    item++;
+  });
+}
+
+function Load_elements()
+{
+  for ( var i = 0, len = localStorage.length; i < len; ++i )
+  {
+    var element = localStorage.getItem(localStorage.key(i));
+    if(element.split(";")[0].indexOf("timer") >= 0)
+    {
+      //Timer
+      Add_existing_timer(element.split(";")[0], element.split(";")[1], element.split(";")[2]);
+    }
+    else if(element.split(";")[0].indexOf("countdown") >= 0)
+    {
+      //Contdown
+      Add_existing_countdown(element.split(";")[0], element.split(";")[1], element.split(";")[2]);
+    }
+  }
+}
+
+function Add_existing_timer(timer_id, titel, duration)
+{
+  var new_timer = new timer(timer_id);
+  var id = timer_id.replace(/[^0-9]/g,'');
+  if(duration != 'undefined')
+  {
+    $('#timer_box').append('<div class="timer" id="' + timer_id + '" data-id="' + id + '" data-start="' + duration + '"><form><input class="titel" type="text" placeholder="Titel eingeben" value="' + titel + '"></form><div class="counter">' + MSeconds_to_date(duration) + '</div><div class="control" data-value="1"></div><div class="remove">X</div></div>');
+    $('#' + timer_id + ' .control').css("background", "url(img/refresh.png) no-repeat");
+    new_timer.set(new Date(duration));
+  }
+  else
+  {
+    $('#timer_box').append('<div class="timer" id="' + timer_id + '" data-id="' + id + '" data-start="' + duration + '"><form><input class="titel" type="text" placeholder="Titel eingeben" value="' + titel + '"></form><div class="counter">' + MSeconds_to_date(duration) + '</div><div class="control" data-value="0"></div><div class="remove">X</div></div>');
+    $('#' + timer_id + ' .control').css("background", "url(img/play.png) no-repeat");
+    new_timer.clear();
+  }
+
+  $('#' + timer_id + ' .remove').click(Remove_timer);
+  $('#' + timer_id + ' .control').click(Change_status);
+
   active_timers.set(id, new_timer);
   interval_ids.set(id, setInterval(new_timer.timer, 10));
+}
+
+function Add_existing_countdown(countdown_id, titel, endtime)
+{
+  var new_countdown = new countdown(countdown_id);
+  var id = countdown_id.replace(/[^0-9]/g,'');
+  if(endtime != 'undefined')
+  {
+    $('#timer_box').append('<div class="countdown" id="' + countdown_id + '" data-id="' + id + '" data-end="' + endtime + '"><form><input class="titel" type="text" placeholder="Titel eingeben" value="' + titel +'"><input class="counter" type="text" placeholder="Datum" value="' + endtime +'"></form><div class="popup"></div><div class="control" data-value="1"></div><div class="remove">X</div></div>');
+    $('#' + countdown_id + ' .control').css("background", "url(img/pause.png) no-repeat");
+    new_countdown.set(new Date(endtime));
+  }
+  else
+  {
+    $('#timer_box').append('<div class="countdown" id="' + countdown_id + '" data-id="' + id + '"><form><input class="titel" type="text" placeholder="Titel eingeben" value="' + titel +'"><input class="counter" type="text" placeholder="Datum"></form><div class="popup"></div><div class="control" data-value="0"></div><div class="remove">X</div></div>');
+    $('#' + countdown_id + ' .control').css("background", "url(img/play.png) no-repeat");
+  }
+
+  $('#' + countdown_id + ' .remove').click(Remove_countdown);
+  $('#' + countdown_id + ' .control').click(Change_status_countdown);
+  $('#' + countdown_id + ' .counter').click(Show_enddate);
+
+  active_countdowns.set(id, new_countdown);
+  interval_ids_countdowns.set(id, setInterval(new_countdown.timer, 10));
 }
