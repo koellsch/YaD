@@ -1,5 +1,5 @@
 function Set_html(id, string) {
-  document.getElementById(id).getElementsByClassName('counter')[0].innerHTML = string;
+  document.getElementById(id).getElementsByClassName('counter')[0].value = string;
 }
 
 function timer(id) {

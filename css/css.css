@@ -21,6 +21,7 @@ ul li {
 }
 
 body {
+    padding: 10px;
     font: 13px 'Open Sans', "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
     background-color: rgb(56, 117, 197);
 } 
@@ -55,7 +56,7 @@ html {
 i {
     color: #fff;
     font-family: weather;
-    font-size: 150px;
+    font-size: 100px;
     font-weight: normal;
     font-style: normal;
     line-height: 1.0;
@@ -112,9 +113,9 @@ i {
 .icon-47:before { content: "S"; }
 
 #weather h2 {
-    margin: 0 0 8px;
+    margin: 0;
     color: #fff;
-    font-size: 100px;
+    font-size: 80px;
     font-weight: 300;
     text-align: center;
     text-shadow: 0px 1px 3px rgba(0, 0, 0, 0.15);
@@ -128,7 +129,7 @@ i {
 #weather li {
     background: #fff;
     background: rgba(255,255,255,0.90);
-    padding: 10px 20px 10px 20px;
+    padding: 5px 10px 5px 10px;
     display: inline-block;
     border-radius: 5px;
 }
@@ -149,9 +150,9 @@ i {
 
 #add-timer, #add-countdown {
     border: #fff 2px solid;
-    padding: 10px;
-    margin-top: 20px;
-    margin-left: 20px;
+    padding: 5px;
+    margin-top: 10px;
+    margin-left: 10px;
     color: white;
     font-size: 20px;
     text-align: right;
@@ -162,33 +163,22 @@ i {
 #timer_box .timer, #timer_box .countdown {
     position: relative;
     width: 696px;
-    height: 50px;
+    height: 35px;
     border: 2px solid;
     border-color: white;
-    margin-top: 20px;
+    margin-top: 10px;
 }
 .timer, .countdown {
-    font-size: 30px;
+    font-size: 20px;
     color: white;
 }
-.timer .counter {
-    float: left;
-    width: 200px;
-    position: relative;
-    height: 40px;
-    top: 50%;
-    margin-top: -20px;
-    margin-left: 5px;
-    text-align: left;
-    text-align: center;
-}
 
-.countdown .counter {
+.countdown .counter, .timer .counter {
     position: relative;
     float: left;
     width: 200px;
-    height: 40px;
-    font-size: 30px;
+    height: 30px;
+    font-size: 20px;
     color: white;
     background: none;
     border: none;
@@ -201,8 +191,8 @@ i {
     position: relative;
     float: left;
     width: 410px;
-    height: 40px;
-    font-size: 30px;
+    height: 30px;
+    font-size: 20px;
     color: white;
     background: none;
     border: none;
@@ -212,11 +202,11 @@ i {
 
 .timer .remove, .timer .control, .countdown .remove, .countdown .control {
     position: absolute;
-    height: 26px;
-    width: 26px;
+    height: 20px;
+    width: 20px;
     top: 50%;
-    margin-top: -15px;
-    line-height: 0.9em;
+    margin-top: -10px;
+    line-height: 1.0em;
     cursor: pointer;
 }
 
@@ -226,7 +216,8 @@ i {
 
 .timer .control, .countdown .control {
     right: 46px;
-    background: url('../img/play.png') no-repeat;
+    background: url('../img/play.png');
+    background-size: cover;
 }
 
 @keyframes blink { 
@@ -237,11 +228,11 @@ i {
  .popup {
      position: absolute;
      left: 420px;
-     height: 40px;
-     width: 190px;
+     height: 20px;
+     width: 130px;
      background-color: rgb(223, 223, 223);
      color: rgb(56, 117, 197);
-     line-height: 1.4em;
+     line-height: 1.1em;
      z-index: 10;
      border-radius: 5px;
      padding: 5px;

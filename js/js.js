@@ -20,7 +20,7 @@ window.onbeforeunload = function () {
 function Add_new_timer() {
   var id = String($('.timer').length);
   var timer_id = 'timer_' + id;
-  $('#timer_box').append('<div class="timer" id="' + timer_id + '" data-id="' + id + '"><form><input class="titel" type="text" placeholder="Titel eingeben"></form><div class="counter">0T 00:00:00</div><div class="control" data-value="0"></div><div class="remove">X</div></div>');
+  $('#timer_box').append('<div class="timer" id="' + timer_id + '" data-id="' + id + '"><form><input class="titel" type="text" placeholder="Titel eingeben"><input class="counter" type="text" readonly value="0T 00:00:00"></form><div class="control" data-value="0"></div><div class="remove">X</div></div>');
   $('#' + timer_id + ' .remove').click(Remove_timer);
   $('#' + timer_id + ' .control').click(Change_status);
 
@@ -186,13 +186,13 @@ function Add_existing_timer(timer_id, titel, duration)
   var id = timer_id.replace(/[^0-9]/g,'');
   if(duration != 'undefined')
   {
-    $('#timer_box').append('<div class="timer" id="' + timer_id + '" data-id="' + id + '" data-start="' + duration + '"><form><input class="titel" type="text" placeholder="Titel eingeben" value="' + titel + '"></form><div class="counter">' + MSeconds_to_date(duration) + '</div><div class="control" data-value="1"></div><div class="remove">X</div></div>');
+    $('#timer_box').append('<div class="timer" id="' + timer_id + '" data-id="' + id + '" data-start="' + duration + '"><form><input class="titel" type="text" placeholder="Titel eingeben" value="' + titel + '"><input class="counter" type="text" readonly value="' + MSeconds_to_date(duration) + '"></form><div class="control" data-value="1"></div><div class="remove">X</div></div>');
     $('#' + timer_id + ' .control').css("background", "url(img/refresh.png) no-repeat");
     new_timer.set(new Date(duration));
   }
   else
   {
-    $('#timer_box').append('<div class="timer" id="' + timer_id + '" data-id="' + id + '" data-start="' + duration + '"><form><input class="titel" type="text" placeholder="Titel eingeben" value="' + titel + '"></form><div class="counter">' + MSeconds_to_date(duration) + '</div><div class="control" data-value="0"></div><div class="remove">X</div></div>');
+    $('#timer_box').append('<div class="timer" id="' + timer_id + '" data-id="' + id + '" data-start="' + duration + '"><form><input class="titel" type="text" placeholder="Titel eingeben" value="' + titel + '"><input class="counter" type="text" readonly value="' + MSeconds_to_date(duration) + '"></form><div class="control" data-value="0"></div><div class="remove">X</div></div>');
     $('#' + timer_id + ' .control').css("background", "url(img/play.png) no-repeat");
     new_timer.clear();
   }
