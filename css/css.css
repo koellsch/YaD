@@ -21,7 +21,6 @@ ul li {
 }
 
 body {
-    padding: 45px 0;
     font: 13px 'Open Sans', "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
     background-color: rgb(56, 117, 197);
 } 
@@ -129,7 +128,7 @@ i {
 #weather li {
     background: #fff;
     background: rgba(255,255,255,0.90);
-    padding: 20px;
+    padding: 10px 20px 10px 20px;
     display: inline-block;
     border-radius: 5px;
 }
@@ -162,7 +161,7 @@ i {
 
 #timer_box .timer, #timer_box .countdown {
     position: relative;
-    width: 700px;
+    width: 696px;
     height: 50px;
     border: 2px solid;
     border-color: white;
@@ -181,6 +180,7 @@ i {
     margin-top: -20px;
     margin-left: 5px;
     text-align: left;
+    text-align: center;
 }
 
 .countdown .counter {
@@ -194,6 +194,7 @@ i {
     border: none;
     margin-top: 3px;
     margin-left: 5px;
+    text-align: center;
 }
 
 .timer .titel, .countdown .titel {
