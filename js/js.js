@@ -117,6 +117,7 @@ function Change_status_countdown() {
     {
       countdown.set(date);
       countdown.start();
+      $(this).parent().find('.counter').attr('readonly', true);
       $(this).parent().attr('data-end', date);
       $(this).attr('data-value', '1');
       $(this).css("background", "url(img/pause.png) no-repeat");
@@ -127,6 +128,7 @@ function Change_status_countdown() {
   {
     //Pause countdown
     countdown.stop();
+    $(this).parent().find('.counter').removeAttr('readonly');
     $(this).attr('data-value', '0');
     $(this).css("background", "url(img/play.png) no-repeat");
     if(!countdown.isFinished())
@@ -190,13 +192,13 @@ function Add_existing_timer(timer_id, titel, duration)
   var id = timer_id.replace(/[^0-9]/g,'');
   if(duration != 'undefined')
   {
-    $('#timer_box').append('<div class="timer" id="' + timer_id + '" data-id="' + id + '" data-start="' + duration + '"><form><input class="titel" type="text" placeholder="Titel eingeben" value="' + titel + '"><input class="counter" type="text" readonly value="' + MSeconds_to_date(duration) + '"></form><div class="control" data-value="1"></div><div class="remove">X</div></div>');
+    $('#timer_box').append('<div class="timer" id="' + timer_id + '" data-id="' + id + '" data-start="' + duration + '"><form><input class="titel" type="text" placeholder="Titel eingeben" value="' + titel + '"><input class="counter" type="text" readonly value="' + duration + '"></form><div class="control" data-value="1"></div><div class="remove">X</div></div>');
     $('#' + timer_id + ' .control').css("background", "url(img/refresh.png) no-repeat");
     new_timer.set(new Date(duration));
   }
   else
   {
-    $('#timer_box').append('<div class="timer" id="' + timer_id + '" data-id="' + id + '" data-start="' + duration + '"><form><input class="titel" type="text" placeholder="Titel eingeben" value="' + titel + '"><input class="counter" type="text" readonly value="' + MSeconds_to_date(duration) + '"></form><div class="control" data-value="0"></div><div class="remove">X</div></div>');
+    $('#timer_box').append('<div class="timer" id="' + timer_id + '" data-id="' + id + '" data-start="' + duration + '"><form><input class="titel" type="text" placeholder="Titel eingeben" value="' + titel + '"><input class="counter" type="text" readonly value="' + duration + '"></form><div class="control" data-value="0"></div><div class="remove">X</div></div>');
     $('#' + timer_id + ' .control').css("background", "url(img/play.png) no-repeat");
     new_timer.clear();
   }
@@ -214,7 +216,7 @@ function Add_existing_countdown(countdown_id, titel, endtime)
   var id = countdown_id.replace(/[^0-9]/g,'');
   if(endtime != 'undefined')
   {
-    $('#timer_box').append('<div class="countdown" id="' + countdown_id + '" data-id="' + id + '" data-end="' + endtime + '"><form><input class="titel" type="text" placeholder="Titel eingeben" value="' + titel +'"><input class="counter" type="text" placeholder="Datum" value="' + endtime +'"></form><div class="popup"></div><div class="info"></div><div class="control" data-value="1"></div><div class="remove">X</div></div>');
+    $('#timer_box').append('<div class="countdown" id="' + countdown_id + '" data-id="' + id + '" data-end="' + endtime + '"><form><input class="titel" type="text" placeholder="Titel eingeben" value="' + titel +'"><input class="counter" type="text" readonly placeholder="Datum" value="' + endtime +'"></form><div class="popup"></div><div class="info"></div><div class="control" data-value="1"></div><div class="remove">X</div></div>');
     $('#' + countdown_id + ' .control').css("background", "url(img/pause.png) no-repeat");
     new_countdown.set(new Date(endtime));
   }
