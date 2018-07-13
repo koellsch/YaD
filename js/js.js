@@ -32,10 +32,10 @@ function Add_new_timer() {
 function Add_new_countdown() {
   var id = String($('.countdown').length);
   var countdown_id = 'countdown_' + id;
-  $('#timer_box').append('<div class="countdown" id="' + countdown_id + '" data-id="' + id + '"><form><input class="titel" type="text" placeholder="Titel eingeben"><input class="counter" type="text" placeholder="Datum"></form><div class="popup"></div><div class="control" data-value="0"></div><div class="remove">X</div></div>');
+  $('#timer_box').append('<div class="countdown" id="' + countdown_id + '" data-id="' + id + '"><form><input class="titel" type="text" placeholder="Titel eingeben"><input class="counter" type="text" placeholder="Datum"></form><div class="popup"></div><div class="info"></div><div class="control" data-value="0"></div><div class="remove">X</div></div>');
   $('#' + countdown_id + ' .remove').click(Remove_countdown);
   $('#' + countdown_id + ' .control').click(Change_status_countdown);
-  $('#' + countdown_id + ' .counter').click(Show_enddate);
+  $('#' + countdown_id + ' .info').click(Show_enddate);
 
   var new_countdown = new countdown(countdown_id);
   active_countdowns.set(id, new_countdown);
@@ -134,13 +134,13 @@ function Change_status_countdown() {
 
 function Show_enddate()
 {
-  var time_set = $(this).parent().parent().attr('data-end');
+  var time_set = $(this).parent().attr('data-end');
   var options = { year: 'numeric', month: '2-digit', day: '2-digit' };
   if(typeof time_set !== typeof undefined && time_set !== false)
   {
-    $(this).parent().parent().find('.popup').html(new Date(time_set).toLocaleDateString('de-DE', options));
-    $(this).parent().parent().find('.popup').fadeIn('slow');
-    $(this).parent().parent().find('.popup').delay(1000).fadeOut('slow');
+    $(this).parent().find('.popup').html(new Date(time_set).toLocaleDateString('de-DE', options));
+    $(this).parent().find('.popup').fadeIn('slow');
+    $(this).parent().find('.popup').delay(1000).fadeOut('slow');
   }
 }
 
@@ -210,19 +210,19 @@ function Add_existing_countdown(countdown_id, titel, endtime)
   var id = countdown_id.replace(/[^0-9]/g,'');
   if(endtime != 'undefined')
   {
-    $('#timer_box').append('<div class="countdown" id="' + countdown_id + '" data-id="' + id + '" data-end="' + endtime + '"><form><input class="titel" type="text" placeholder="Titel eingeben" value="' + titel +'"><input class="counter" type="text" placeholder="Datum" value="' + endtime +'"></form><div class="popup"></div><div class="control" data-value="1"></div><div class="remove">X</div></div>');
+    $('#timer_box').append('<div class="countdown" id="' + countdown_id + '" data-id="' + id + '" data-end="' + endtime + '"><form><input class="titel" type="text" placeholder="Titel eingeben" value="' + titel +'"><input class="counter" type="text" placeholder="Datum" value="' + endtime +'"></form><div class="popup"></div><div class="info"></div><div class="control" data-value="1"></div><div class="remove">X</div></div>');
     $('#' + countdown_id + ' .control').css("background", "url(img/pause.png) no-repeat");
     new_countdown.set(new Date(endtime));
   }
   else
   {
-    $('#timer_box').append('<div class="countdown" id="' + countdown_id + '" data-id="' + id + '"><form><input class="titel" type="text" placeholder="Titel eingeben" value="' + titel +'"><input class="counter" type="text" placeholder="Datum"></form><div class="popup"></div><div class="control" data-value="0"></div><div class="remove">X</div></div>');
+    $('#timer_box').append('<div class="countdown" id="' + countdown_id + '" data-id="' + id + '"><form><input class="titel" type="text" placeholder="Titel eingeben" value="' + titel +'"><input class="counter" type="text" placeholder="Datum"></form><div class="popup"></div><div class="info"></div><div class="control" data-value="0"></div><div class="remove">X</div></div>');
     $('#' + countdown_id + ' .control').css("background", "url(img/play.png) no-repeat");
   }
 
   $('#' + countdown_id + ' .remove').click(Remove_countdown);
   $('#' + countdown_id + ' .control').click(Change_status_countdown);
-  $('#' + countdown_id + ' .counter').click(Show_enddate);
+  $('#' + countdown_id + ' .info').click(Show_enddate);
 
   active_countdowns.set(id, new_countdown);
   interval_ids_countdowns.set(id, setInterval(new_countdown.timer, 10));
