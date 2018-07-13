@@ -22,6 +22,7 @@
 
       var now = new Date();
       var weatherUrl = 'https://query.yahooapis.com/v1/public/yql?format=json&rnd=' + now.getFullYear() + now.getMonth() + now.getDay() + now.getHours() + '&diagnostics=true&callback=?&q=';
+      $('#weather .refresh-weather').addClass("rotate");
 
       if(options.location !== '') {
         /* If latitude/longitude coordinates, need to format a little different. */

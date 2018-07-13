@@ -1,4 +1,4 @@
-function Set_html(id, string) {
+function Set_value(id, string) {
   document.getElementById(id).getElementsByClassName('counter')[0].value = string;
 }
 
@@ -10,7 +10,7 @@ function timer(id) {
 
   return {
     setText: function() {
-      Set_html(timer_id, MSeconds_to_date(elapsed_time));
+      Set_value(timer_id, MSeconds_to_date(elapsed_time));
     },
     start: function() {
       start_time = new Date();
@@ -32,7 +32,7 @@ function timer(id) {
       if (stop === 0) {
         
         elapsed_time = new Date() - start_time;
-        Set_html(timer_id, MSeconds_to_date(elapsed_time));
+        Set_value(timer_id, MSeconds_to_date(elapsed_time));
       }
     },
     set: function(time) {
