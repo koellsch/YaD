@@ -41,6 +41,16 @@ function countdown(id) {
       end_time = time;
       this.start();
       this.setText();
+    },
+    isFinished: function() {
+      if(time_left === 0)
+      {
+        return true;
+      }
+      else
+      {
+        return false;
+      }
     }
   }
 };

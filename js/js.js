@@ -97,7 +97,7 @@ function Change_status_countdown() {
       //Check for new entered date
       var date_input = $(this).parent().find('.counter').val();
       var date_converted = Convert_date(date_input);
-      var new_date = new Date(date_converted);
+      var new_date = new Date(date_converted[0], date_converted[1], date_converted[2], date_converted[3], date_converted[4]);
       date = new Date(time_set);
 
       if(new_date != date && new_date != 'Invalid Date')
@@ -110,7 +110,7 @@ function Change_status_countdown() {
       //Countdown never started
       var date_input = $(this).parent().find('.counter').val();
       var date_converted = Convert_date(date_input);
-      date = new Date(date_converted);
+      date = new Date(date_converted[0], date_converted[1], date_converted[2], date_converted[3], date_converted[4]);
     }
 
     if(date != 'Invalid Date')
@@ -129,16 +129,20 @@ function Change_status_countdown() {
     countdown.stop();
     $(this).attr('data-value', '0');
     $(this).css("background", "url(img/play.png) no-repeat");
+    if(!countdown.isFinished())
+    {
+      $(this).parent().find('.counter').val(Convert_date_to_enddate($(this).parent().attr('data-end')));
+    }
   }
 }
 
 function Show_enddate()
 {
   var time_set = $(this).parent().attr('data-end');
-  var options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+
   if(typeof time_set !== typeof undefined && time_set !== false)
   {
-    $(this).parent().find('.popup').html(new Date(time_set).toLocaleDateString('de-DE', options));
+    $(this).parent().find('.popup').html(Convert_date_to_enddate(time_set));
     $(this).parent().find('.popup').fadeIn('slow');
     $(this).parent().find('.popup').delay(1000).fadeOut('slow');
   }
