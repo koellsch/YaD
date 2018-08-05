@@ -1,0 +1,15 @@
+{
+    "short_name": "Dachsbau Dashboard",
+    "name": "Dachsbau Dashboard",
+    "icons": [
+        {
+        "src": "img/launcher-icon.png",
+        "sizes": "173x192",
+        "type": "image/png"
+    }
+],
+    "start_url": "/index.html",
+    "display": "fullscreen",
+    "orientation": "landscape"
+  }
+  

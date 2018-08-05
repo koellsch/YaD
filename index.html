@@ -2,7 +2,9 @@
 <html lang="de">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" sizes="173x192" href="img/launcher-icon.png">
+    <link rel="manifest" href="/manifest.json">
     <title>Dachsbau - Dashboard</title>
 
     <!--===================================
@@ -30,4 +32,16 @@
         <div id="add-countdown">Neuer Countdown</div>
     </div>
 </body>
+
+<script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js')
+        .then(function(reg){
+          console.log("Service Worker registered successfull.");
+        }).catch(function(err) {
+          console.log("Service Worker registered with errors: ", err)
+        });
+    }
+  </script>
+
 </html>
